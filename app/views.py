@@ -8,9 +8,8 @@ cards = { 0: u"↑", 45: u"↗", 90: u"→", 135: u"↘", 180: u"↓", 225: u"�
 
 
 @app.route('/weather/<location>', strict_slashes=False, methods=['GET'])
-@cache.memoize(60)
+@cache.memoize(300)
 def index(location):
-
     try:
         geo_url = 'https://maps.googleapis.com/maps/api/geocode/json'
         params = {'key': app.config['GOOGLE_API_KEY'], 'address': location}
@@ -31,7 +30,7 @@ def index(location):
             cards[min(cards.keys(), key=lambda k: abs(k - float(weather['current']['wind_deg'])))])
 
         return u"{current[temp]:.0f}\u00b0F({current[feels_like]:.0f}\u00b0F) " \
-            u"{current[weather][0][description]} {direction}{current[wind_speed]:.0f}MPH " \
+            u"{current[weather][0][description]} {direction}{current[wind_speed]:.0f}mph " \
             u"{current[humidity]:.0f}%".format(direction=direction, **weather)
     except:
         return "Error: unable to find weather data for location."

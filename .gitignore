@@ -2,4 +2,5 @@
 *.db
 *.log
 *.pyc
+*.swp
 tmp
