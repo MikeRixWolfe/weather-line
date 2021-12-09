@@ -4,7 +4,7 @@ from app import app
 import requests
 
 
-cards = { 0: u"↑", 45: u"↗", 90: u"→", 135: u"↙", 180: u"↓", 225: u"↙", 270: u"←", 315: u"↗", 360: u"↑" }
+cards = { 0: u"↑", 45: u"↗", 90: u"→", 135: u"↘", 180: u"↓", 225: u"↙", 270: u"←", 315: u"↖", 360: u"↑" }
 
 
 @app.route('/weather/<location>', strict_slashes=False, methods=['GET'])
