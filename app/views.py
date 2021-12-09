@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from app import app
+from app import app, cache
 import requests
 
 
@@ -8,6 +8,7 @@ cards = { 0: u"↑", 45: u"↗", 90: u"→", 135: u"↘", 180: u"↓", 225: u"�
 
 
 @app.route('/weather/<location>', strict_slashes=False, methods=['GET'])
+@cache.memoize(60)
 def index(location):
 
     try:
