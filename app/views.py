@@ -14,24 +14,29 @@ def index(location):
         geo_url = 'https://maps.googleapis.com/maps/api/geocode/json'
         params = {'key': app.config['GOOGLE_API_KEY'], 'address': location}
         geo = requests.get(geo_url, params=params).json()['results'][0]
-    except:
-        return "Google Geocoding API error, please try again in a few minutes."
+    except Exception as e:
+        print(e)
+        return "Google Geocoding API error"
 
     try:
         owm_url = 'https://api.openweathermap.org/data/2.5/onecall'
-        params = {'lat': geo['geometry']['location']['lat'], 'lon': geo['geometry']['location']['lng'],
-            'appid': app.config['OPENWEATHER_API_KEY'], 'exclude': 'minutely,hourly,daily', 'units': 'imperial', 'format': 'json'}
+        params = {'lat': geo['geometry']['location']['lat'], 'lon': geo['geometry']['location']['lng'], 'format': 'json',
+            'appid': app.config['OPENWEATHER_API_KEY'], 'exclude': 'minutely,hourly,daily', 'units': 'imperial'}
         weather = requests.get(owm_url, params=params).json()
-    except:
-        return "OpenWeather API error, please try again in a few minutes."
+    except Exception as e:
+        print(e)
+        return "OpenWeather API error"
 
     try:
         direction = cards.get(float(weather['current']['wind_deg']),
             cards[min(cards.keys(), key=lambda k: abs(k - float(weather['current']['wind_deg'])))])
 
+        weather['current']['weather'][0]['description'] = weather['current']['weather'][0]['description'].replace('intensity ', '')
+
         return u"{current[temp]:.0f}\u00b0F({current[feels_like]:.0f}\u00b0F) " \
             u"{current[weather][0][description]} {direction}{current[wind_speed]:.0f}mph " \
             u"{current[humidity]:.0f}%".format(direction=direction, **weather)
-    except:
-        return "Error: unable to find weather data for location."
+    except Exception as e:
+        print(e)
+        return "Error parsing weather data"
 
