@@ -34,8 +34,8 @@ def index(location):
         weather['current']['weather'][0]['description'] = weather['current']['weather'][0]['description'].replace('intensity ', '')
         weather['current']['wind_gust'] = weather['current'].get('wind_gust', weather['current']['wind_speed'])
 
-        return u"{current[temp]:.0f}\u00b0F({current[feels_like]:.0f}\u00b0F) " \
-            u"{current[weather][0][description]} {direction}{current[wind_gust]:.0f}mph " \
+        return u"{current[temp]:.0f}\u00b0F({current[feels_like]:.0f}\u00b0F) {current[weather][0][description]} "\
+            u"{direction}{current[wind_speed]:.0f}/{current[wind_gust]:.0f}mph " \
             u"{current[humidity]:.0f}%".format(direction=direction, **weather)
     except Exception as e:
         print(e)
