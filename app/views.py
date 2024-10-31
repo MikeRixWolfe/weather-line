@@ -29,7 +29,7 @@ def index(location):
         meteo_url = 'https://api.open-meteo.com/v1/forecast'
         params = {'latitude': geo['geometry']['location']['lat'], 'longitude': geo['geometry']['location']['lng'],
             'current': 'temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m',
-            'temperature_unit': 'fahrenheit', 'wind_speed_unit': 'mph', 'precipitation_unit': 'inch', 'timezone': 'America/New_York', 'timeformat': 'unixtime' }
+            'temperature_unit': 'fahrenheit', 'wind_speed_unit': 'mph' }
         weather = requests.get(meteo_url, params=params).json()
     except Exception as e:
         print(e)
